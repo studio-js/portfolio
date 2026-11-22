@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="style" content="gaejo">
+<title>실행 결과 · LMS 프로토타입 만들기 · 20261030-2130-data-bootcamp</title>
+<style>
+:root{--bg:#f7f6f3;--paper:#fff;--ink:#1a1918;--sub:#6f6b64;--faint:#8f8a81;--line:#e4e1da;--line2:#d3cec4;
+--panel:#f7f6f3;--fail:#9a3b2a;--warn:#865a17;
+--sans:"Pretendard","Apple SD Gothic Neo","Noto Sans KR",system-ui,-apple-system,"Segoe UI",sans-serif;
+--mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.68 var(--sans);word-break:keep-all;overflow-wrap:break-word}
+p,li,td{text-wrap:pretty}
+.sheet{max-width:840px;margin:40px auto 56px;background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:44px 56px 40px}
+.meta{margin:0 0 10px;color:var(--sub);font-size:13px;line-height:1.55}
+.meta .wf{color:var(--ink);font-weight:500}
+.meta span{white-space:nowrap}
+.meta span:not(:last-child)::after{content:"·";margin:0 7px;color:var(--faint)}
+h1{margin:0;font-size:25px;line-height:1.32;font-weight:650;letter-spacing:-0.005em;text-wrap:balance}
+.lead{margin-top:20px}
+.conclusion{margin:0;font-size:17px;line-height:1.62;font-weight:560}
+.decide{margin:20px 0 0;background:var(--panel);border-radius:6px;padding:18px 20px 16px}
+.decide h2{margin:0 0 4px;font-size:13px;font-weight:650;color:var(--sub)}
+.decide .q{margin:0 0 10px;font-size:15px;font-weight:600}
+.opts{list-style:none;margin:0;padding:0}
+.opts li{display:grid;grid-template-columns:5.2em 1fr;gap:10px;padding:4px 0}
+.opts .k{font-weight:600}
+.rec{margin:10px 0 0;font-size:14px}
+.rec b{font-weight:600}
+.cmds{margin:12px 0 0;padding:10px 12px;background:var(--paper);border:1px solid var(--line);border-radius:4px;font:12px/1.6 var(--mono);color:var(--ink);overflow-x:auto;white-space:pre}
+section.part{border-top:1px solid var(--line);margin-top:30px;padding-top:20px}
+h2{margin:0 0 12px;font-size:15px;font-weight:650}
+.wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.55}
+th{font-weight:600;color:var(--sub);font-size:12.5px;text-align:left;padding:0 12px 7px 0;border-bottom:1px solid var(--line2);white-space:nowrap}
+td{padding:9px 12px 9px 0;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th.n,td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.n{font-weight:560}
+td.b{color:var(--sub);font-weight:400}
+.small{display:block;margin-top:2px;color:var(--sub);font-size:12.5px;line-height:1.5;font-weight:400}
+.mono{font-family:var(--mono);font-size:12px;word-break:break-all;overflow-wrap:anywhere}
+code{font-family:var(--mono);font-size:.86em;background:var(--panel);border-radius:3px;padding:0 2px}
+.small code,code.path{background:none;padding:0;border-radius:0}
+.small code{overflow-wrap:anywhere;word-break:break-all}
+ul.checklist li>span,ul.files li>*,.opts li>span{min-width:0}
+code.path{font-size:12px;word-break:break-all;overflow-wrap:anywhere}
+.st{white-space:nowrap;font-weight:600}
+.st.fail{color:var(--fail)}
+.st.skip{color:var(--sub);font-weight:500}
+ul.plain,ol.plain{margin:0;padding-left:1.2em}
+ul.plain li,ol.plain li{padding:3px 0}
+ul.checklist{list-style:none;margin:0;padding:0}
+ul.checklist li{display:grid;grid-template-columns:1.5em 1fr;padding:7px 0;border-bottom:1px solid var(--line)}
+ul.checklist li:last-child{border-bottom:0}
+.box{font-size:15px;line-height:1.4;color:var(--sub)}
+ul.risks{list-style:none;margin:0;padding:0}
+ul.risks li{display:grid;grid-template-columns:3.4em 1fr;gap:8px;padding:5px 0}
+.lv{font-weight:600;white-space:nowrap}
+.lv.high{color:var(--fail)}
+.lv.low{color:var(--sub);font-weight:500}
+ul.files{list-style:none;margin:0;padding:0}
+ul.files li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4px 20px;padding:7px 0;border-bottom:1px solid var(--line);align-items:baseline}
+ul.files li:last-child{border-bottom:0}
+ul.files .small{margin-top:0}
+.none{margin:0;color:var(--sub)}
+.h2note{margin-left:8px;color:var(--sub);font-size:12.5px;font-weight:500}
+footer{margin-top:28px;color:var(--faint);font-size:12px}
+@media (max-width:700px){
+ body{font-size:15px}
+ .sheet{margin:0;border:0;border-radius:0;padding:28px 16px 32px}
+ h1{font-size:22px}
+ .opts li{grid-template-columns:4.8em 1fr}
+ ul.files li{grid-template-columns:1fr}
+}
+@media print{
+ @page{size:A4;margin:15mm 15mm 17mm}
+ body{background:#fff;font-size:10pt;line-height:1.6}
+ .sheet{max-width:none;margin:0;border:0;padding:0}
+ h1{font-size:18pt}
+ .conclusion{font-size:12pt}
+ table{font-size:9.5pt}
+ th{font-size:8.5pt}
+ .small,.mono,.cmds{font-size:8pt}
+ .decide,code{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ tr,li,.decide{break-inside:avoid}
+ h2{break-after:avoid}
+ .wrap{overflow:visible}
+}
+</style>
+</head>
+<body>
+<main class="sheet">
+<header>
+<div class="meta"><div class="wf"><span>LMS 프로토타입 만들기</span><span>20261030-2130-data-bootcamp</span></div><div class="info"><span>단계 2/4</span><span>기록 2026-10-30</span><span>작성 2026-11-23</span><span>담당 하네스와 에이전트 6개</span></div></div>
+<h1>실행 결과</h1>
+</header>
+<section class="lead" aria-label="결론">
+<p class="conclusion">기능 23개와 배포본 수용 테스트 83건 모두 통과. Netlify 의 Git 연동 빌드는 실패해 로컬에서 빌드해 배포.</p>
+<div class="decide">
+<h2>사람이 정할 것</h2>
+<p class="q">이 결과로 공개 전 확인을 시작할지</p>
+<ul class="opts">
+<li><span class="k">승인</span><span>공개와 제출 확인으로 넘어감</span></li>
+<li><span class="k">수정 요청</span><span>./lms resume 이나 새 실행으로 고칠 기능을 다시 실행</span></li>
+<li><span class="k">중단</span><span>결과를 쓰지 않음(만든 자원은 사람이 ./lms destroy 로 정리)</span></li>
+</ul>
+<pre class="cmds">! python3 ~/.claude/skills/review-gates/scripts/gate.py approve result --note &quot;확인한 내용&quot;
+! python3 ~/.claude/skills/review-gates/scripts/gate.py revise result --note &quot;고칠 것&quot;
+! python3 ~/.claude/skills/review-gates/scripts/gate.py stop result --note &quot;멈추는 이유&quot;</pre>
+</div></section>
+<section class="part"><h2>결과 수치</h2>
+<div class="wrap"><table><thead><tr><th>항목</th><th class="n">값</th><th class="n">기준</th><th>기준의 뜻</th><th class="n">차이</th></tr></thead><tbody>
+<tr><td>통과한 기능</td><td class="n">23개</td><td class="n b">23개</td><td>기능 목록 전체(명세 14개, QA 추가 9개)</td><td class="n b">같음</td></tr>
+<tr><td>QA(품질 검사)에서 추가한 기능<span class="small">1회차 6개, 2회차 3개. 평가 에이전트가 찾은 결함을 회귀 테스트로 남긴 것</span></td><td class="n">9개</td><td class="n b">14개</td><td>명세 단계의 기능</td><td class="n b"></td></tr>
+<tr><td>배포본 수용 테스트 통과<span class="small">첫 검사는 82건 통과(1건 시간 초과)</span></td><td class="n">83건</td><td class="n b">83건</td><td>수용 테스트 전체</td><td class="n b">같음</td></tr>
+<tr><td>걸린 시간<span class="small">5시간 47분. 구현 루프 185분, QA 99분</span></td><td class="n">347분</td><td class="n b"></td><td>첫 실행이라 비교할 실행 없음</td><td class="n b"></td></tr>
+<tr><td>추정 비용<span class="small">Claude Code 가 알려 준 추정치. 보고 단계의 46.71달러에 회고 에이전트의 1.01달러를 더한 값</span></td><td class="n">47.7달러</td><td class="n b">150달러</td><td>실행 예산</td><td class="n b">−102.3달러</td></tr>
+<tr><td>구현 반복</td><td class="n">24회</td><td class="n b">45회</td><td>반복 상한</td><td class="n b">−21회</td></tr>
+</tbody></table></div>
+</section>
+<section class="part"><h2>바뀐 것</h2>
+<ul class="plain"><li>GitHub 비공개 저장소, Supabase 프로젝트(서울 지역), Netlify 사이트 각 1개 생성</li><li>기능 23개 구현: 기반 3개, 학생 화면 6개, 운영진 화면 5개, QA 결함 9개</li><li>시연 영상(<code>video/demo.mp4</code>), 설정 안내서(<code>SETUP.md</code>), 제출 자료 폴더(<code>제출자료/data-bootcamp/</code>) 생성</li><li>회고 에이전트가 <code>memory/learnings.md</code> 에 규칙 7개 추가. 그 가운데 2개(가드 훅의 리다이렉트 오탐 수정, 배포 직후 대기)는 키트 코드에 바로 반영</li><li>배포 방식을 Netlify 의 Git 연동 빌드에서 로컬 빌드 업로드로 바꿈</li></ul>
+</section>
+<section class="part"><h2>자동 검사 결과 <span class="h2note">통과 5 · 실패 2</span></h2>
+<div class="wrap"><table><thead><tr><th>검사</th><th>결과</th><th>내용</th></tr></thead><tbody>
+<tr><td>기능별 수용 테스트(하네스가 직접 실행)</td><td><span class="st pass">✓ 통과</span></td><td>23개 기능 모두 첫 시도에 통과<span class="small"><code>runs/20261030-2130-data-bootcamp/state.json</code> 의 features</span></td></tr>
+<tr><td>디자인 맞춤 뒤 수용 테스트</td><td><span class="st pass">✓ 통과</span></td><td>65건 모두 통과<span class="small"><code>state.json</code> 의 designCheck</span></td></tr>
+<tr><td>프로덕션 빌드 수용 테스트(QA 중)</td><td><span class="st pass">✓ 통과</span></td><td>76건 모두 통과<span class="small"><code>state.json</code> 의 prodCheck</span></td></tr>
+<tr><td>Netlify 의 Git 연동 빌드</td><td><span class="st fail">✗ 실패</span></td><td>저장소 접근 오류(Repository not found, 종료 코드 128). 로컬에서 빌드해 배포<span class="small"><code>state.json</code> 의 escalations, <code>REPORT.md</code> 「사람이 볼 것」</span></td></tr>
+<tr><td>배포본 수용 테스트, 첫 검사</td><td><span class="st fail">✗ 실패</span></td><td>83건 가운데 82건 통과. 틀린 비밀번호로 로그인하는 시험(F01)이 45초 시간 초과<span class="small"><code>state.json</code> 의 live.firstRunFailed</span></td></tr>
+<tr><td>배포본 수용 테스트, 다시 검사</td><td><span class="st pass">✓ 통과</span></td><td>83건 모두 통과. 코드 변경 없이 전체를 다시 실행<span class="small"><code>state.json</code> 의 live, runNote</span></td></tr>
+<tr><td>수용 테스트와 기능 목록의 해시 대조</td><td><span class="st pass">✓ 통과</span></td><td>반복마다 대조해 불일치 0건<span class="small"><code>TECHNIQUES.md</code> 「첫 실행에서 실제로 일어난 일」</span></td></tr>
+</tbody></table></div>
+</section>
+<section class="part"><h2>사람이 확인할 것</h2><ul class="checklist">
+<li><span class="box">☐</span><span>「사람이 볼 것」(막힌 기능, 예산과 반복 상한, 배포 실패, 인프라 에이전트가 고치지 못한 것)<span class="small">근거 위치: <code>runs/20261030-2130-data-bootcamp/REPORT.md</code> 의 「사람이 볼 것」</span></span></li>
+<li><span class="box">☐</span><span>QA(품질 검사)에서 추가된 기능(회귀 테스트로 남은 결함)<span class="small">근거 위치: <code>runs/20261030-2130-data-bootcamp/REPORT.md</code> 의 기능 표(구분 qa)</span></span></li>
+<li><span class="box">☐</span><span>하네스를 중간에 다시 이어 실행한 횟수와 사람이 개입한 곳<span class="small">근거 위치: <code>runs/20261030-2130-data-bootcamp/state.json</code> 의 runNote, escalations</span></span></li>
+<li><span class="box">☐</span><span>회고가 <code>memory/learnings.md</code> 에 더한 규칙<span class="small">근거 위치: <code>memory/learnings.md</code></span></span></li>
+<li><span class="box">☐</span><span>배포본 첫 검사의 시간 초과(F01, 45초)가 배포 직후에만 생긴 것인지<span class="small">근거 위치: <code>runs/20261030-2130-data-bootcamp/events.jsonl</code> 의 배포 단계</span></span></li>
+</ul></section>
+<section class="part"><h2>위험과 남은 문제</h2>
+<ul class="risks">
+<li><span class="lv mid">보통</span><span>키트를 고치면서 하네스를 7번 다시 이어 실행한 기록. 사람의 개입 없이 처음부터 끝까지 실행한 적은 아직 없음</span></li>
+<li><span class="lv mid">보통</span><span>Netlify 와 GitHub 저장소가 연결되지 않아 푸시해도 자동 배포가 되지 않음</span></li>
+<li><span class="lv low">낮음</span><span>배포본 첫 검사의 시간 초과 원인은 확인하지 않음. 다시 검사에서는 통과</span></li>
+</ul>
+</section>
+<section class="part"><h2>다음 단계</h2>
+<ol class="plain"><li>승인하면 공개와 제출 단계. 제출 자료와 영상에 데모 비밀번호, 승인 주소, 로컬 경로가 보이는지 확인</li><li>자동 배포가 필요하면 GitHub 의 Netlify 앱 설정에서 새 저장소 접근 허용</li><li>사람이 개입하지 않은 실행의 수치가 필요하면 완성된 키트로 한 번 더 실행</li></ol>
+</section>
+<section class="part"><h2>근거 파일</h2><ul class="files">
+<li><code class="path">runs/20261030-2130-data-bootcamp/state.json</code><span class="small">기능별 결과, 비용, 반복, 단계 시간, 배포본 검사, 실행 메모(runNote)</span></li>
+<li><code class="path">runs/20261030-2130-data-bootcamp/REPORT.md</code><span class="small">기능 표, 단계별 시간, 에이전트별 호출과 비용, 「사람이 볼 것」</span></li>
+<li><code class="path">runs/20261030-2130-data-bootcamp/events.jsonl</code><span class="small">QA 회차별 결함, 배포 단계 기록</span></li>
+<li><code class="path">TECHNIQUES.md</code><span class="small">「첫 실행에서 실제로 일어난 일」. 해시 대조 결과, 회고가 남긴 규칙 수</span></li>
+</ul></section>
+</main>
+</body></html>
